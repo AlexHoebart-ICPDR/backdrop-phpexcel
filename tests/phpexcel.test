@@ -10,14 +10,6 @@ class PHPExcelTest extends DrupalWebTestCase {
   protected $test_files;
   protected $directory;
 
-  public static function getInfo() {
-    return array(
-      'name' => 'PHPExcel',
-      'description' => 'Test the module API functions',
-      'group' => 'PHPExcel'
-    );
-  }
-
   public function setUp() {
     parent::setUp('phpexcel');
 

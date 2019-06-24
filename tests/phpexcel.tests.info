@@ -1,0 +1,5 @@
+[PHPExcelTest]
+name = PHPExcel
+description = Test the module API functions.
+group = PHPExcel
+file = phpexcel.test
