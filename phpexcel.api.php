@@ -537,11 +537,9 @@
  *   while($i < $limit) {
  *     if (!empty($data[$i])) {
  *       // Do something with the data, like creating a node...
- *       $node = (object) array(
- *         'type' => 'page',
- *         'title' => $data[$i]['Header 1'],
- *       );
- *       node_save($node);
+ *       $node = entity_create('node', array ('type' => 'page'));
+ *       $node->title = $data[$i]['Header 1'];
+ *       $node->save();
  *       $context['results'][] = $node;
  *       $context['sandbox']['progress']++;
  *       $i++;

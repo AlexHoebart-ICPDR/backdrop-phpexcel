@@ -499,12 +499,9 @@ class PHPExcelTest extends DrupalWebTestCase {
   }
 
   protected function createNode() {
-    $node = (object) array(
-      'type' => 'page',
-      'title' => $this->randomName(8),
-      'body' => $this->randomName(20),
-    );
-
-    node_save($node);
+    $node = entity_create('node', array ('type' => 'page'));
+    $node->title = $this->randomName(8);
+    $node->body = $this->randomName(20);
+    $node->save();
   }
 }
