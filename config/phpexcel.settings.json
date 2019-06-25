@@ -5,5 +5,5 @@
   "phpexcel_apc_cachetime": 600,
   "phpexcel_memcache_host": "localhost",
   "phpexcel_memcache_port": 11211,
-  "phpexcel_memcache_cachetime": 600,
+  "phpexcel_memcache_cachetime": 600
 }

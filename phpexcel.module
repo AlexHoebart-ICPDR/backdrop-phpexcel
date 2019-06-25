@@ -9,7 +9,7 @@
  *   module_load_include('inc', 'phpexcel');
  * @endcode
  */
-
+include_once backdrop_get_path('module', 'phpexcel') . '/libraries/PHPExcel/Classes/PHPExcel.php';
 /**
  * Implements hook_menu().
  */

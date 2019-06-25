@@ -88,13 +88,13 @@ function phpexcel_export($headers = array(), $data = array(), $path = '', $optio
     return PHPEXCEL_ERROR_PATH_NOT_WRITABLE;
   }
 
-  $library = libraries_load('PHPExcel');
+  /*$library = libraries_load('PHPExcel');
 
   if (empty($library['loaded'])) {
     watchdog('phpexcel', "Couldn't find the PHPExcel library. Excel export aborted.", array(), WATCHDOG_ERROR);
 
     return PHPEXCEL_ERROR_LIBRARY_NOT_FOUND;
-  }
+  }*/
 
   $path = phpexcel_munge_filename($path);
 
@@ -381,9 +381,9 @@ function _phpexcel_set_columns($xls, &$data, $headers = NULL, $options = array()
  */
 function phpexcel_import($path, $keyed_by_headers = TRUE, $keyed_by_worksheet = FALSE, $custom_calls = array()) {
   if (is_readable($path)) {
-    $library = libraries_load('PHPExcel');
+    //$library = libraries_load('PHPExcel');
 
-    if (!empty($library['loaded'])) {
+    //if (!empty($library['loaded'])) {
       // Determine caching method.
       list($cache_method, $cache_settings) = _phpexcel_get_cache_settings();
 
@@ -526,12 +526,12 @@ function phpexcel_import($path, $keyed_by_headers = TRUE, $keyed_by_worksheet = 
       unset($xls_data);
 
       return $data;
-    }
+    /*}
     else {
       watchdog('phpexcel', "Couldn't find the PHPExcel library. Excel import aborted.", array(), WATCHDOG_ERROR);
 
       return PHPEXCEL_ERROR_LIBRARY_NOT_FOUND;
-    }
+    }*/
   }
   else {
     watchdog('phpexcel', "The path '@path' is not readable. Excel import aborted.", array('@path' => $path));
