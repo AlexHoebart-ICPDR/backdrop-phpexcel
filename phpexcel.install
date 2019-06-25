@@ -17,7 +17,7 @@ function phpexcel_uninstall() {
     'phpexcel_memcache_port',
     'phpexcel_memcache_cachetime',
   ) as $variable) {
-    variable_del($variable);
+    config_clear('phpexcel.settings', $variable);
   }
 }
 

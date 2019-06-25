@@ -12,8 +12,15 @@ class PHPExcelTest extends DrupalWebTestCase {
 
   public function setUp() {
     parent::setUp('phpexcel');
+    $config = config('phpexcel.settings');
+    $file_path = 'file_' . file_default_scheme() . '_path';
+    $variable = $config->get($file_path);
+    if (empty($variable)) {
+      $config->set($file_path, conf_path() . '/files');
+      $config->save();
+    }
 
-    $this->directory = variable_get('file_' . file_default_scheme() . '_path', conf_path() . '/files');
+    $this->directory = $config->get($file_path);
 
     // Make sure the directory is writable.
     $this->assertTrue(

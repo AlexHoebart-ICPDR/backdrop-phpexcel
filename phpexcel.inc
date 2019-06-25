@@ -583,8 +583,9 @@ function phpexcel_munge_filename($path) {
  *    The first key is the caching method, the second the settings.
  */
 function _phpexcel_get_cache_settings() {
+  $config = config('phpexcel.settings');
   $cache_settings = array();
-  switch (variable_get('phpexcel_cache_mechanism')) {
+  switch ($config->get('phpexcel_cache_mechanism')) {
     case 'cache_in_memory_serialized':
       $cache_method = PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized;
       break;
@@ -596,23 +597,23 @@ function _phpexcel_get_cache_settings() {
     case 'cache_to_phpTemp':
       $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
       $cache_settings = array(
-        'memoryCacheSize' => variable_get('phpexcel_phptemp_limit', 1) . 'MB'
+        'memoryCacheSize' => $config->get('phpexcel_phptemp_limit') . 'MB'
       );
       break;
 
     case 'cache_to_apc':
       $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_apc;
       $cache_settings = array(
-        'cacheTime' => variable_get('phpexcel_apc_cachetime', '600')
+        'cacheTime' => $config->get('phpexcel_apc_cachetime')
       );
       break;
 
     case 'cache_to_memcache':
       $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_memcache;
       $cache_settings = array(
-        'memcacheServer' => variable_get('phpexcel_memcache_host', 'localhost'),
-        'memcachePort' => variable_get('phpexcel_memcache_port', '11211'),
-        'cacheTime' => variable_get('phpexcel_memcache_cachetime', '600')
+        'memcacheServer' => $config->get('phpexcel_memcache_host'),
+        'memcachePort' => $config->get('phpexcel_memcache_port'),
+        'cacheTime' => $config->get('phpexcel_memcache_cachetime')
       );
       break;
 
