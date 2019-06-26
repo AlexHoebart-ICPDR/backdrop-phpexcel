@@ -394,7 +394,7 @@ class PHPExcelTest extends DrupalWebTestCase {
   public function testDBResultExport() {
     // Create 10 nodes.
     for ($i = 10; $i > 0; $i--) {
-      $this->createNode();
+      $this->drupalCreateNode();
     }
 
     // Get the db query result.
@@ -419,7 +419,7 @@ class PHPExcelTest extends DrupalWebTestCase {
 
     $this->assertEqual(
       PHPEXCEL_SUCCESS,
-      phpexcel_export_db_result($result, $correct_path),
+      phpexcel_export_db_result($result, $correct_path, $options),
       t('Exported data to !path', array('!path' => $actual_path))
     );
 
@@ -430,9 +430,9 @@ class PHPExcelTest extends DrupalWebTestCase {
 
     $this->assertTrue(!!$data, 'Import succeeded');
 
-    // Should have 10 rows.
+    // Should have 12 rows.
     $count = count($data[0]);
-    $this->assertTrue($count === 10, t('!count rows, expect 10', array('!count' => $count)));
+    $this->assertTrue($count === 12, t('!count rows, expect 12', array('!count' => $count)));
 
     // Should only have 2 cells.
     $count = count($data[0][0]);
