@@ -40,26 +40,6 @@ function phpexcel_permission() {
 }
 
 /**
- * Implements hook_libraries_info().
- */
-function phpexcel_libraries_info() {
-  return array(
-    'PHPExcel' => array(
-      'name' => 'PHPExcel',
-      'vendor url' => 'http://phpexcel.codeplex.com/',
-      'download url' => 'https://github.com/PHPOffice/PHPExcel',
-      'version callback' => 'phpexcel_get_library_version',
-      'path' => 'Classes',
-      'files' => array(
-        'php' => array(
-          'PHPExcel.php',
-        ),
-      ),
-    ),
-  );
-}
-
-/**
  * Libraries API version callback.
  */
 function phpexcel_get_library_version($library) {

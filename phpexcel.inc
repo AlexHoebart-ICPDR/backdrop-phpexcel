@@ -88,14 +88,6 @@ function phpexcel_export($headers = array(), $data = array(), $path = '', $optio
     return PHPEXCEL_ERROR_PATH_NOT_WRITABLE;
   }
 
-  /*$library = libraries_load('PHPExcel');
-
-  if (empty($library['loaded'])) {
-    watchdog('phpexcel', "Couldn't find the PHPExcel library. Excel export aborted.", array(), WATCHDOG_ERROR);
-
-    return PHPEXCEL_ERROR_LIBRARY_NOT_FOUND;
-  }*/
-
   $path = phpexcel_munge_filename($path);
 
   // Determine caching method.
@@ -381,157 +373,149 @@ function _phpexcel_set_columns($xls, &$data, $headers = NULL, $options = array()
  */
 function phpexcel_import($path, $keyed_by_headers = TRUE, $keyed_by_worksheet = FALSE, $custom_calls = array()) {
   if (is_readable($path)) {
-    //$library = libraries_load('PHPExcel');
 
-    //if (!empty($library['loaded'])) {
-      // Determine caching method.
-      list($cache_method, $cache_settings) = _phpexcel_get_cache_settings();
+    // Determine caching method.
+    list($cache_method, $cache_settings) = _phpexcel_get_cache_settings();
 
-      // Is it available ? If not, return an error.
-      if (empty($cache_method)) {
-        return PHPEXCEL_CACHING_METHOD_UNAVAILABLE;
-      }
+    // Is it available ? If not, return an error.
+    if (empty($cache_method)) {
+      return PHPEXCEL_CACHING_METHOD_UNAVAILABLE;
+    }
 
-      PHPExcel_Settings::setCacheStorageMethod($cache_method, $cache_settings);
+    PHPExcel_Settings::setCacheStorageMethod($cache_method, $cache_settings);
 
-      $xls_reader = PHPExcel_IOFactory::createReaderForFile($path);
+    $xls_reader = PHPExcel_IOFactory::createReaderForFile($path);
 
-      $custom_calls = array(
-        'setReadDataOnly' => array(TRUE),
-      ) + $custom_calls;
+    $custom_calls = array(
+      'setReadDataOnly' => array(TRUE),
+    ) + $custom_calls;
 
-      if (!empty($custom_calls)) {
-        foreach ($custom_calls as $method => $args) {
-          if (method_exists($xls_reader, $method)) {
-            call_user_func_array(array($xls_reader, $method), $args);
-          }
+    if (!empty($custom_calls)) {
+      foreach ($custom_calls as $method => $args) {
+        if (method_exists($xls_reader, $method)) {
+          call_user_func_array(array($xls_reader, $method), $args);
         }
       }
+    }
 
-      $xls_data = $xls_reader->load($path);
+    $xls_data = $xls_reader->load($path);
 
-      $data = array();
-      $headers = array();
-      $options = array(
-        'path' => $path,
-        'keyed_by_headers' => $keyed_by_headers,
-        'keyed_by_worksheet' => $keyed_by_worksheet,
-        'custom_calls' => $custom_calls,
-      );
-      $i = 0;
+    $data = array();
+    $headers = array();
+    $options = array(
+      'path' => $path,
+      'keyed_by_headers' => $keyed_by_headers,
+      'keyed_by_worksheet' => $keyed_by_worksheet,
+      'custom_calls' => $custom_calls,
+    );
+    $i = 0;
 
-      phpexcel_invoke('import', 'full', $xls_data, $xls_reader, $options);
+    phpexcel_invoke('import', 'full', $xls_data, $xls_reader, $options);
 
-      foreach ($xls_data->getWorksheetIterator() as $worksheet) {
-        $j = 0;
+    foreach ($xls_data->getWorksheetIterator() as $worksheet) {
+      $j = 0;
 
-        phpexcel_invoke('import', 'sheet', $worksheet, $xls_reader, $options);
+      phpexcel_invoke('import', 'sheet', $worksheet, $xls_reader, $options);
 
-        foreach ($worksheet->getRowIterator() as $row) {
-          if ($keyed_by_worksheet) {
-            $i = $worksheet->getTitle();
+      foreach ($worksheet->getRowIterator() as $row) {
+        if ($keyed_by_worksheet) {
+          $i = $worksheet->getTitle();
+        }
+        $k = 0;
+
+        $cells = $row->getCellIterator();
+
+        $cells->setIterateOnlyExistingCells(FALSE);
+
+        phpexcel_invoke('import', 'row', $row, $xls_reader, $options);
+
+        foreach ($cells as $cell) {
+          $value = $cell->getValue();
+          $value = drupal_strlen($value) ? trim($value) : '';
+
+          if (!$j && $keyed_by_headers) {
+            $value = drupal_strlen($value) ? $value : $k;
+
+            phpexcel_invoke(
+              'import',
+              'pre cell',
+              $value,
+              $cell,
+              $options,
+              $k,
+              $j
+            );
+
+            $headers[$i][] = $value;
           }
-          $k = 0;
+          elseif ($keyed_by_headers) {
+            phpexcel_invoke(
+              'import',
+              'pre cell',
+              $value,
+              $cell,
+              $options,
+              $k,
+              $j
+            );
 
-          $cells = $row->getCellIterator();
+            $data[$i][$j - 1][$headers[$i][$k]] = $value;
 
-          $cells->setIterateOnlyExistingCells(FALSE);
-
-          phpexcel_invoke('import', 'row', $row, $xls_reader, $options);
-
-          foreach ($cells as $cell) {
-            $value = $cell->getValue();
-            $value = drupal_strlen($value) ? trim($value) : '';
-
-            if (!$j && $keyed_by_headers) {
-              $value = drupal_strlen($value) ? $value : $k;
-
-              phpexcel_invoke(
-                'import',
-                'pre cell',
-                $value,
-                $cell,
-                $options,
-                $k,
-                $j
-              );
-
-              $headers[$i][] = $value;
-            }
-            elseif ($keyed_by_headers) {
-              phpexcel_invoke(
-                'import',
-                'pre cell',
-                $value,
-                $cell,
-                $options,
-                $k,
-                $j
-              );
-
-              $data[$i][$j - 1][$headers[$i][$k]] = $value;
-
-              phpexcel_invoke(
-                'import',
-                'post cell',
-                $data[$i][$j - 1][$headers[$i][$k]],
-                $cell,
-                $options,
-                $k,
-                $j
-              );
-            }
-            else {
-              $col_index = $k;
-              if ($cells->getIterateOnlyExistingCells()) {
-                $col_index = PHPExcel_Cell::columnIndexFromString($cell->getColumn()) - 1;
-              }
-
-              phpexcel_invoke(
-                'import',
-                'pre cell',
-                $value,
-                $cell,
-                $options,
-                $col_index,
-                $j
-              );
-
-              $data[$i][$j][$col_index] = $value;
-
-              phpexcel_invoke(
-                'import',
-                'post cell',
-                $data[$i][$j][$col_index],
-                $cell,
-                $options,
-                $col_index,
-                $j
-              );
+            phpexcel_invoke(
+              'import',
+              'post cell',
+              $data[$i][$j - 1][$headers[$i][$k]],
+              $cell,
+              $options,
+              $k,
+              $j
+            );
+          }
+          else {
+            $col_index = $k;
+            if ($cells->getIterateOnlyExistingCells()) {
+              $col_index = PHPExcel_Cell::columnIndexFromString($cell->getColumn()) - 1;
             }
 
-            $k++;
+            phpexcel_invoke(
+              'import',
+              'pre cell',
+              $value,
+              $cell,
+              $options,
+              $col_index,
+              $j
+            );
+
+            $data[$i][$j][$col_index] = $value;
+
+            phpexcel_invoke(
+              'import',
+              'post cell',
+              $data[$i][$j][$col_index],
+              $cell,
+              $options,
+              $col_index,
+              $j
+            );
           }
 
-          $j++;
+          $k++;
         }
 
-        if (!$keyed_by_worksheet) {
-          $i++;
-        }
+        $j++;
       }
 
-      // Free up memory.
-      $xls_data->disconnectWorksheets();
-      unset($xls_data);
+      if (!$keyed_by_worksheet) {
+        $i++;
+      }
+    }
 
-      return $data;
-    /*}
-    else {
-      watchdog('phpexcel', "Couldn't find the PHPExcel library. Excel import aborted.", array(), WATCHDOG_ERROR);
+    // Free up memory.
+    $xls_data->disconnectWorksheets();
+    unset($xls_data);
 
-      return PHPEXCEL_ERROR_LIBRARY_NOT_FOUND;
-    }*/
+    return $data;
   }
   else {
     watchdog('phpexcel', "The path '@path' is not readable. Excel import aborted.", array('@path' => $path));
