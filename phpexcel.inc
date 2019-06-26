@@ -566,11 +566,11 @@ function phpexcel_invoke($hook, $op, &$data, $phpexcel, $options, $column = NULL
  * @return string
  */
 function phpexcel_munge_filename($path) {
-  $parts = explode(DIRECTORY_SEPARATOR, $path);
+  $parts = explode(PHPEXCEL_DIRECTORY_SEPARATOR, $path);
 
   $filename = array_pop($parts);
 
-  return implode(DIRECTORY_SEPARATOR, $parts) . DIRECTORY_SEPARATOR . file_munge_filename($filename, 'xls xlsx csv ods');
+  return implode(PHPEXCEL_DIRECTORY_SEPARATOR, $parts) . PHPEXCEL_DIRECTORY_SEPARATOR . file_munge_filename($filename, 'xls xlsx csv ods');
 }
 
 /**

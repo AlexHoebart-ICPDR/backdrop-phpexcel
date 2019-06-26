@@ -2325,10 +2325,10 @@ class PHPExcel_Calculation
             //    Default is English, if user isn't requesting english, then read the necessary data from the locale files
             if ($locale != 'en_us') {
                 //    Search for a file with a list of function names for locale
-                $functionNamesFile = PHPEXCEL_ROOT . 'PHPExcel'.DIRECTORY_SEPARATOR.'locale'.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $locale).DIRECTORY_SEPARATOR.'functions';
+                $functionNamesFile = PHPEXCEL_ROOT . 'PHPExcel'.PHPEXCEL_DIRECTORY_SEPARATOR.'locale'.PHPEXCEL_DIRECTORY_SEPARATOR.str_replace('_', PHPEXCEL_DIRECTORY_SEPARATOR, $locale).PHPEXCEL_DIRECTORY_SEPARATOR.'functions';
                 if (!file_exists($functionNamesFile)) {
                     //    If there isn't a locale specific function file, look for a language specific function file
-                    $functionNamesFile = PHPEXCEL_ROOT . 'PHPExcel'.DIRECTORY_SEPARATOR.'locale'.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.'functions';
+                    $functionNamesFile = PHPEXCEL_ROOT . 'PHPExcel'.PHPEXCEL_DIRECTORY_SEPARATOR.'locale'.PHPEXCEL_DIRECTORY_SEPARATOR.$language.PHPEXCEL_DIRECTORY_SEPARATOR.'functions';
                     if (!file_exists($functionNamesFile)) {
                         return false;
                     }
@@ -2354,9 +2354,9 @@ class PHPExcel_Calculation
                     self::$localeBoolean['FALSE'] = self::$localeFunctions['FALSE'];
                 }
 
-                $configFile = PHPEXCEL_ROOT . 'PHPExcel'.DIRECTORY_SEPARATOR.'locale'.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $locale).DIRECTORY_SEPARATOR.'config';
+                $configFile = PHPEXCEL_ROOT . 'PHPExcel'.PHPEXCEL_DIRECTORY_SEPARATOR.'locale'.PHPEXCEL_DIRECTORY_SEPARATOR.str_replace('_', PHPEXCEL_DIRECTORY_SEPARATOR, $locale).PHPEXCEL_DIRECTORY_SEPARATOR.'config';
                 if (!file_exists($configFile)) {
-                    $configFile = PHPEXCEL_ROOT . 'PHPExcel'.DIRECTORY_SEPARATOR.'locale'.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.'config';
+                    $configFile = PHPEXCEL_ROOT . 'PHPExcel'.PHPEXCEL_DIRECTORY_SEPARATOR.'locale'.PHPEXCEL_DIRECTORY_SEPARATOR.$language.PHPEXCEL_DIRECTORY_SEPARATOR.'config';
                 }
                 if (file_exists($configFile)) {
                     $localeSettings = file($configFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
