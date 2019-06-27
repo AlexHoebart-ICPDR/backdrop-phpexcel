@@ -13,6 +13,8 @@ define('PHPEXCEL_ERROR_FILE_NOT_WRITTEN', 4);
 define('PHPEXCEL_ERROR_FILE_NOT_READABLE', 5);
 define('PHPEXCEL_CACHING_METHOD_UNAVAILABLE', 6);
 define('PHPEXCEL_SUCCESS', 10);
+!defined('PHPEXCEL_DIRECTORY_SEPARATOR') && define('PHPEXCEL_DIRECTORY_SEPARATOR', '/');
+include_once backdrop_get_path('module', 'phpexcel') . '/libraries/PHPExcel/Classes/PHPExcel.php';
 
 /**
  * Simple API function which will generate an XLS file and

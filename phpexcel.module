@@ -10,7 +10,7 @@
  * @endcode
  */
 
-define('PHPEXCEL_DIRECTORY_SEPARATOR', '/');
+!defined('PHPEXCEL_DIRECTORY_SEPARATOR') && define('PHPEXCEL_DIRECTORY_SEPARATOR', '/');
 include_once backdrop_get_path('module', 'phpexcel') . '/libraries/PHPExcel/Classes/PHPExcel.php';
 
 /**
