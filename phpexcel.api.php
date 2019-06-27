@@ -10,13 +10,13 @@
  * @{
  * PHPExcel (the library) is a powerful PHP library to export and import data
  * to and from Excel file. It is very flexible, and well built. The PHPExcel
- * Drupal module, on the other hand, provides a "wrapper", a simpler API that
- * behaves in a "Drupal" way. This module simplifies the export or import of
+ * Backdrop module, on the other hand, provides a "wrapper", a simpler API that
+ * behaves in a "Backdrop" way. This module simplifies the export or import of
  * data, abstracting much of the complexity, at the cost of flexibility.
  *
  * @section export Exporting data
  *
- * The idea is to provide an API very similar to Drupal's theme_table()
+ * The idea is to provide an API very similar to Backdrop's theme_table()
  * function.
  *
  * Using the module's functions requires the phpexcel.inc file to be loaded:
@@ -304,10 +304,10 @@
  *
  * It is possible that an exported result must be downloaded straight away,
  * after which the exported file should be deleted. One way to achieve this is
- * using Drupal's "managed files". We can register files with Drupal, and tell
+ * using Backdrop's "managed files". We can register files with Backdrop, and tell
  * it to mark them as temporary. These temporary files will be garbage collected
  * at regular intervals, on cron runs. The following example shows the code
- * that exports the data to an Excel file, and then registers it with Drupal as
+ * that exports the data to an Excel file, and then registers it with Backdrop as
  * a temporary file, and triggers the file transfer. Notice that using the
  * built-in file_download_headers() function requires a hook_file_download()
  * implementation.
@@ -336,8 +336,8 @@
  * ), $filepath);
  *
  * if ($result === PHPEXCEL_SUCCESS) {
- *   // Exported successfully. Let's register the file with Drupal. We simply
- *   // tell Drupal to copy the file over the existing one, by passing in
+ *   // Exported successfully. Let's register the file with Backdrop. We simply
+ *   // tell Backdrop to copy the file over the existing one, by passing in
  *   // temporary://$filename.
  *   $file = file_save_data(
  *     file_get_contents($filepath),
@@ -346,7 +346,7 @@
  *   );
  *
  *   // By default, the file is stored as a permanent file. Let's make it
- *   // temporary, so Drupal will remove it (in 6 hours, if your cron is set up
+ *   // temporary, so Backdrop will remove it (in 6 hours, if your cron is set up
  *   // correctly).
  *   $file->status = 0;
  *   file_save($file);
@@ -405,7 +405,7 @@
  *     ), $context['sandbox']['file']);
  *
  *     if ($result !== PHPEXCEL_SUCCESS) {
- *       drupal_set_message("Something went wrong", 'error');
+ *       backdrop_set_message("Something went wrong", 'error');
  *       $context['sandbox']['finished'] = 1;
  *       $context['success'] = FALSE;
  *       return;
@@ -429,7 +429,7 @@
  *     ));
  *
  *     if ($result !== PHPEXCEL_SUCCESS) {
- *       drupal_set_message(t("Something went wrong on pass !pass", array(
+ *       backdrop_set_message(t("Something went wrong on pass !pass", array(
  *         '!pass' => $context['sandbox']['progress'],
  *       )), 'error');
  *       $context['sandbox']['finished'] = 1;
@@ -449,7 +449,7 @@
  * function mymodule_batch_finished($success, $results, $operations) {
  *   if ($success) {
  *     $wrapper = file_stream_wrapper_get_instance_by_uri($results);
- *     drupal_set_message(t("Download it here: !link", array(
+ *     backdrop_set_message(t("Download it here: !link", array(
  *       '!link' => l($results, $wrapper->getExternalUrl()),
  *     )), 'status', FALSE);
  *   }
@@ -507,7 +507,7 @@
  *   // ChunkReaderFilter class.
  *   $library = libraries_load('PHPExcel');
  *   if (empty($library['loaded'])) {
- *     drupal_set_message(t("Couldn't load the PHPExcel library."), 'error');
+ *     backdrop_set_message(t("Couldn't load the PHPExcel library."), 'error');
  *     $context['sandbox']['finished'] = 1;
  *     $context['success'] = FALSE;
  *     return;
@@ -522,7 +522,7 @@
  *   ));
  *
  *   if (!is_array($data)) {
- *     drupal_set_message(t("Something went wrong on pass !pass", array(
+ *     backdrop_set_message(t("Something went wrong on pass !pass", array(
  *       '!pass' => $context['sandbox']['progress'],
  *     )), 'error');
  *     $context['sandbox']['finished'] = 1;
@@ -566,7 +566,7 @@
  *     $message .= theme('item_list', array('items' => array_map(function($node) {
  *       return l($node->title, "node/{$node->nid}");
  *     }, $results)));
- *     drupal_set_message($message);
+ *     backdrop_set_message($message);
  *   }
  * }
  * @endcode
@@ -597,7 +597,7 @@
  * }
  * @endcode
  *
- * We need to register this file with Drupal's autoloader, which is done by
+ * We need to register this file with Backdrop's autoloader, which is done by
  * adding a files[] directive to the module's .info file:
  *
  * @code

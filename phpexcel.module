@@ -22,9 +22,9 @@ function phpexcel_menu() {
       'title' => 'PHPExcel settings',
       'description' => 'Manage PHPExcel settings.',
       'access arguments' => array('administer phpexcel'),
-      'page callback' => 'drupal_get_form',
+      'page callback' => 'backdrop_get_form',
       'page arguments' => array('phpexcel_settings_form'),
-    )
+    ),
   );
 }
 
@@ -195,13 +195,13 @@ function phpexcel_settings_form_validate($form, $form_state) {
   }
 }
 
- /** 
+/**
  * Implements hook_config_info().
  */
 function phpexcel_config_info() {
   $prefixes['phpexcel.settings'] = array(
-  'label' => t('PHPExcel settings'),
-  'group' => t('Configuration'),
+    'label' => t('PHPExcel settings'),
+    'group' => t('Configuration'),
   );
-return $prefixes;
+  return $prefixes;
 }

@@ -5,7 +5,7 @@
  * Defines the test case for phpexcel
  */
 
-class PHPExcelTest extends DrupalWebTestCase {
+class PHPExcelTest extends BackdropWebTestCase {
 
   protected $test_files;
   protected $directory;
@@ -349,7 +349,7 @@ class PHPExcelTest extends DrupalWebTestCase {
     // Options.
     $options = array(
       'format' => 'xlsx',
-      'template' => drupal_get_path('module', 'phpexcel') . '/tests/data/phpexcel.test.template.xlsx',
+      'template' => backdrop_get_path('module', 'phpexcel') . '/tests/data/phpexcel.test.template.xlsx',
       'ignore_headers' => TRUE
     );
 
@@ -394,7 +394,7 @@ class PHPExcelTest extends DrupalWebTestCase {
   public function testDBResultExport() {
     // Create 10 nodes.
     for ($i = 10; $i > 0; $i--) {
-      $this->drupalCreateNode();
+      $this->backdropCreateNode();
     }
 
     // Get the db query result.

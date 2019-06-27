@@ -135,7 +135,7 @@ function phpexcel_export($headers = array(), $data = array(), $path = '', $optio
         $style = array(
           'alignment' => array(
             'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-          )
+          ),
         );
         $sheet->getStyle($merge_cells)->applyFromArray($style);
         $xls->getActiveSheet()->mergeCells($merge_cells);
@@ -143,7 +143,7 @@ function phpexcel_export($headers = array(), $data = array(), $path = '', $optio
     }
   }
 
-  $format = isset($options['format']) ? drupal_strtolower($options['format']) : @end(explode('.', $path));
+  $format = isset($options['format']) ? backdrop_strtolower($options['format']) : @end(explode('.', $path));
 
   switch ($format) {
     case 'xlsx':
@@ -431,10 +431,10 @@ function phpexcel_import($path, $keyed_by_headers = TRUE, $keyed_by_worksheet = 
 
         foreach ($cells as $cell) {
           $value = $cell->getValue();
-          $value = drupal_strlen($value) ? trim($value) : '';
+          $value = backdrop_strlen($value) ? trim($value) : '';
 
           if (!$j && $keyed_by_headers) {
-            $value = drupal_strlen($value) ? $value : $k;
+            $value = backdrop_strlen($value) ? $value : $k;
 
             phpexcel_invoke(
               'import',
@@ -541,7 +541,7 @@ function phpexcel_invoke($hook, $op, &$data, $phpexcel, $options, $column = NULL
 /**
  * Munges the filename in the path.
  *
- * We can't use drupals file_munge_filename() directly because the $path variable
+ * We can't use backdrop's file_munge_filename() directly because the $path variable
  * contains the path as well.
  * Separate the filename from the directory structure, munge it and return.
  *
@@ -581,14 +581,14 @@ function _phpexcel_get_cache_settings() {
     case 'cache_to_phpTemp':
       $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
       $cache_settings = array(
-        'memoryCacheSize' => $config->get('phpexcel_phptemp_limit') . 'MB'
+        'memoryCacheSize' => $config->get('phpexcel_phptemp_limit') . 'MB',
       );
       break;
 
     case 'cache_to_apc':
       $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_apc;
       $cache_settings = array(
-        'cacheTime' => $config->get('phpexcel_apc_cachetime')
+        'cacheTime' => $config->get('phpexcel_apc_cachetime'),
       );
       break;
 
@@ -597,7 +597,7 @@ function _phpexcel_get_cache_settings() {
       $cache_settings = array(
         'memcacheServer' => $config->get('phpexcel_memcache_host'),
         'memcachePort' => $config->get('phpexcel_memcache_port'),
-        'cacheTime' => $config->get('phpexcel_memcache_cachetime')
+        'cacheTime' => $config->get('phpexcel_memcache_cachetime'),
       );
       break;
 
