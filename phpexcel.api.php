@@ -24,6 +24,10 @@
  * module_load_include('inc', 'phpexcel');
  * @endcode
  *
+ * Path of file
+ * Example: If you want to create the 'file.xls' into 'BACKDROP_ROOT/files' directory,
+ * then use this path: ./files/file.xls
+ *
  * Exporting data is done via phpexcel_export().
  * @code
  * phpexcel_export(array('Header 1', 'Header 2'), array(
@@ -503,16 +507,6 @@
  *     $context['sandbox']['max'] = 10000;
  *   }
  *
- *   // We need to load the library before we can instantiate our
- *   // ChunkReaderFilter class.
- *   $library = libraries_load('PHPExcel');
- *   if (empty($library['loaded'])) {
- *     backdrop_set_message(t("Couldn't load the PHPExcel library."), 'error');
- *     $context['sandbox']['finished'] = 1;
- *     $context['success'] = FALSE;
- *     return;
- *   }
- *
  *   $limit = 10;
  *   // See our module's info file below.
  *   $chunk_filter = new ChunkReadFilter();
@@ -597,14 +591,10 @@
  * }
  * @endcode
  *
- * We need to register this file with Backdrop's autoloader, which is done by
- * adding a files[] directive to the module's .info file:
+ * We need to include this file:
  *
  * @code
- * ; mymodule.info
- * name = My module
- * core = 7.x
- * files[] = src/ChunkReadFilter.php
+ * include_once backdrop_get_path('module', 'my_module') . 'src/ChunkReadFilter.php';
  * @endcode
  *
  * Now, we can set a batch operation like so:
@@ -762,4 +752,3 @@ function hook_phpexcel_import($op, &$data, $phpexcel, $options, $column = NULL, 
 /**
  * @} End of "addtogroup hooks".
  */
-
