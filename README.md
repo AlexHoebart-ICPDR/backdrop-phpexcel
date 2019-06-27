@@ -27,6 +27,13 @@ API reference
 See this: phpexcel.api.php
 
 
+Library
+-------
+
+PHPExcel's library is included under 'libraries' folder.
+Details: https://github.com/PHPOffice/PHPExcel
+
+
 Issues
 ------
 
