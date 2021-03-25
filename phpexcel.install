@@ -9,14 +9,28 @@
  * Implements hook_uninstall().
  */
 function phpexcel_uninstall() {
-  foreach (array(
-    'phpexcel_cache_mechanism',
-    'phpexcel_phptemp_limit',
-    'phpexcel_apc_cachetime',
-    'phpexcel_memcache_host',
-    'phpexcel_memcache_port',
-    'phpexcel_memcache_cachetime',
-  ) as $variable) {
-    config_clear('phpexcel.settings', $variable);
-  }
+
+}
+
+/**
+ * Move phpexcel module settings from variables to config.
+ */
+function phpexcel_update_1000() {
+  // Migrate variables to config.
+  $config = config('phpexcel.settings');
+  $config->set('phpexcel_cache_mechanism', update_variable_get('phpexcel_cache_mechanism', 'cache_in_memory'));
+  $config->set('phpexcel_phptemp_limit', update_variable_get('phpexcel_phptemp_limit', 1));
+  $config->set('phpexcel_apc_cachetime', update_variable_get('phpexcel_apc_cachetime', 600));
+  $config->set('phpexcel_memcache_host', update_variable_get('phpexcel_memcache_host', 'localhost'));
+  $config->set('phpexcel_memcache_port', update_variable_get('phpexcel_memcache_port', 11211));
+  $config->set('phpexcel_memcache_cachetime', update_variable_get('phpexcel_memcache_cachetime', 600));
+  $config->save();
+
+  // Delete variables.
+  update_variable_del('phpexcel_cache_mechanism');
+  update_variable_del('phpexcel_phptemp_limit');
+  update_variable_del('phpexcel_apc_cachetime');
+  update_variable_del('phpexcel_memcache_host');
+  update_variable_del('phpexcel_memcache_port');
+  update_variable_del('phpexcel_memcache_cachetime');
 }
