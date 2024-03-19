@@ -1080,7 +1080,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
      * @param bool $returnCell   Return the worksheet (false, default) or the cell (true)
      * @return PHPExcel_Worksheet|PHPExcel_Cell    Depending on the last parameter being specified
      */
-    public function setCellValue($pCoordinate = 'A1', $pValue = null, $returnCell = false)
+    public function setCellValue($pCoordinate, $pValue = null, $returnCell = false)
     {
         $cell = $this->getCell(strtoupper($pCoordinate))->setValue($pValue);
         return ($returnCell) ? $cell : $this;
@@ -1110,7 +1110,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
      * @param bool $returnCell Return the worksheet (false, default) or the cell (true)
      * @return PHPExcel_Worksheet|PHPExcel_Cell    Depending on the last parameter being specified
      */
-    public function setCellValueExplicit($pCoordinate = 'A1', $pValue = null, $pDataType = PHPExcel_Cell_DataType::TYPE_STRING, $returnCell = false)
+    public function setCellValueExplicit($pCoordinate, $pValue = null, $pDataType = PHPExcel_Cell_DataType::TYPE_STRING, $returnCell = false)
     {
         // Set value
         $cell = $this->getCell(strtoupper($pCoordinate))->setValueExplicit($pValue, $pDataType);
@@ -1142,7 +1142,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
      * @throws PHPExcel_Exception
      * @return null|PHPExcel_Cell Cell that was found/created or null
      */
-    public function getCell($pCoordinate = 'A1', $createIfNotExists = true)
+    public function getCell($pCoordinate, $createIfNotExists = true)
     {
         // Check cell collection
         if ($this->cellCollection->isDataSet(strtoupper($pCoordinate))) {
@@ -1474,7 +1474,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
      * @param $pValue PHPExcel_Style_Conditional[]
      * @return PHPExcel_Worksheet
      */
-    public function setConditionalStyles($pCoordinate = 'A1', $pValue)
+    public function setConditionalStyles($pCoordinate, $pValue)
     {
         $this->conditionalStylesCollection[strtoupper($pCoordinate)] = $pValue;
         return $this;
