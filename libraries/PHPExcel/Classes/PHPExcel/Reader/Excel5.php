@@ -411,6 +411,8 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
      */
     private $md5Ctxt = null;
 
+    private $textObjRef;
+
     /**
      * Create a new PHPExcel_Reader_Excel5 instance
      */

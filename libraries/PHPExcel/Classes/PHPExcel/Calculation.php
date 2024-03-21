@@ -74,6 +74,8 @@ class PHPExcel_Calculation
     const RETURN_ARRAY_AS_VALUE = 'value';
     const RETURN_ARRAY_AS_ARRAY = 'array';
 
+    private $_debugLog;
+
     private static $returnArrayAsType = self::RETURN_ARRAY_AS_VALUE;
 
 
