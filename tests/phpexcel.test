@@ -397,7 +397,14 @@ class PHPExcelTest extends BackdropWebTestCase {
       $this->backdropCreateNode();
     }
 
-    // Get the db query result.
+    // Get the total number of nodes (those created in testing and those existing).
+    $num_nodes = (int) db_query('
+      SELECT COUNT(1)
+      FROM {node}
+      ')
+      ->fetchField();
+
+    // Get the db query result for all nodes.
     $result = db_select('node', 'n')
       ->fields('n', array('nid', 'title'))
       ->execute();
@@ -430,9 +437,9 @@ class PHPExcelTest extends BackdropWebTestCase {
 
     $this->assertTrue(!!$data, 'Import succeeded');
 
-    // Should have 12 rows.
+    // Should have the number of nodes we originally exported.
     $count = count($data[0]);
-    $this->assertTrue($count === 12, t('!count rows, expect 12', array('!count' => $count)));
+    $this->assertTrue($count === $num_nodes, t('!count rows, expect !num_nodes', array('!count' => $count, '!num_nodes' => $num_nodes)));
 
     // Should only have 2 cells.
     $count = count($data[0][0]);
