@@ -17,9 +17,13 @@ module_load_include('inc', 'phpexcel');
 Installation
 ------------
 
-Install this module using the official Backdrop CMS instructions at
+1. Install this module using the official Backdrop CMS instructions at
 https://backdropcms.org/guide/modules
 
+2. Download the PhpSpreadsheet library and extract it inside your site's libraries folder*.
+3. Run "composer install" in the libraries folder to install all dependecies.
+
+* The PhpSpreadsheet library can be extracted in any libraries folder you want (sites/*/libraries). You should have sites/*/libraries/PhpSpreadsheet/src/PhpSpreadsheet/Spreadsheet.php.
 
 API reference
 -------------
@@ -30,8 +34,8 @@ See this: phpexcel.api.php
 Library
 -------
 
-PHPExcel's library is included under 'libraries' folder.
-Details: https://github.com/PHPOffice/PHPExcel
+PhpSpreadsheet library is not included.
+Details: https://github.com/PHPOffice/PhpSpreadsheet
 
 
 Issues
